@@ -26,7 +26,8 @@ RUN composer install \
         --no-interaction \
         --prefer-dist \
         --optimize-autoloader \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && rm -f database/database.sqlite \
+    && chown -R www-data:www-data storage bootstrap/cache database
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
