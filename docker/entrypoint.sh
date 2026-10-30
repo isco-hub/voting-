@@ -9,6 +9,12 @@ sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-avai
 php artisan config:clear
 php artisan view:clear
 
+if [ -z "${APP_KEY:-}" ]; then
+    APP_KEY="$(php artisan key:generate --show)"
+    export APP_KEY
+    echo "WARNING: APP_KEY was not set. Generated a temporary key for this instance."
+fi
+
 attempt=0
 until php artisan migrate --force; do
     attempt=$((attempt + 1))
