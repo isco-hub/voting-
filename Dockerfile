@@ -21,12 +21,14 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install \
+RUN cp .env.example .env \
+    && composer install \
         --no-dev \
         --no-interaction \
         --prefer-dist \
         --optimize-autoloader \
-    && rm -f database/database.sqlite \
+    && php artisan key:generate \
+    && rm -f .env database/database.sqlite \
     && chown -R www-data:www-data storage bootstrap/cache database
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
