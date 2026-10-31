@@ -22,11 +22,12 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN cp .env.example .env \
-    && composer install \
+    && composer update \
         --no-dev \
         --no-interaction \
         --prefer-dist \
         --optimize-autoloader \
+        --ignore-platform-reqs \
     && php artisan key:generate \
     && rm -f .env database/database.sqlite \
     && chown -R www-data:www-data storage bootstrap/cache database
