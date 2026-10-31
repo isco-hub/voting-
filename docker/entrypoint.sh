@@ -8,16 +8,16 @@ sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-avai
 
 echo "INFO: DB_CONNECTION=${DB_CONNECTION:-unset}, DB_URL set=$([ -n "${DB_URL:-}" ] && echo yes || echo no)"
 
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan cache:clear
-
 if [ -z "${APP_KEY:-}" ]; then
     APP_KEY="$(php artisan key:generate --show)"
     export APP_KEY
     echo "WARNING: APP_KEY was not set. Generated a temporary key for this instance."
 fi
+
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
 
 attempt=0
 until php artisan migrate --force; do
