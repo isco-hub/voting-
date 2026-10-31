@@ -17,7 +17,7 @@ fi
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
-php artisan cache:clear
+php artisan cache:clear 2>/dev/null || true
 
 attempt=0
 until php artisan migrate --force; do
