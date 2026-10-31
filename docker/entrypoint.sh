@@ -6,6 +6,11 @@ PORT="${PORT:-8080}"
 sed -ri "s/^Listen 80$/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear 2>/dev/null || true
+
 echo "INFO: DB_CONNECTION=${DB_CONNECTION:-unset}, DB_URL set=$([ -n "${DB_URL:-}" ] && echo yes || echo no)"
 
 if [ -z "${APP_KEY:-}" ]; then
@@ -14,10 +19,6 @@ if [ -z "${APP_KEY:-}" ]; then
     echo "WARNING: APP_KEY was not set. Generated a temporary key for this instance."
 fi
 
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-php artisan cache:clear 2>/dev/null || true
 
 attempt=0
 until php artisan migrate --force; do

@@ -26,8 +26,6 @@ COPY . .
 
 RUN cp .env.example .env \
     && sed -i 's/APP_KEY=/APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=/' .env \
-    && php -v \
-    && composer --version \
     && composer install \
         --no-dev \
         --no-interaction \
@@ -35,9 +33,8 @@ RUN cp .env.example .env \
         --optimize-autoloader \
         --ignore-platform-reqs \
         --no-scripts \
-        -vvv \
     && php artisan package:discover --ansi \
-    && rm -f .env database/database.sqlite \
+    && rm -f .env bootstrap/cache/config.php bootstrap/cache/routes*.php database/database.sqlite \
     && chown -R www-data:www-data storage bootstrap/cache database
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
