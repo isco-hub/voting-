@@ -1,7 +1,8 @@
 .git
 .gitignore
 .env
-.env.*
+.env.backup
+.env.production
 node_modules
 vendor
 public/build
