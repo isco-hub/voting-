@@ -14,7 +14,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     dockerBuildArgs:
-      CACHEBUST: "2"
+      CACHEBUST: "3"
     healthCheckPath: /up
     autoDeploy: true
     envVars:
