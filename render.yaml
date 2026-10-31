@@ -13,6 +13,8 @@ services:
     region: oregon
     dockerfilePath: ./Dockerfile
     dockerContext: .
+    dockerBuildArgs:
+      CACHEBUST: "2"
     healthCheckPath: /up
     autoDeploy: true
     envVars:

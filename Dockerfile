@@ -1,5 +1,8 @@
 FROM php:8.2-apache
 
+# Cache bust
+ARG CACHEBUST=1
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         unzip \
         libzip-dev \
