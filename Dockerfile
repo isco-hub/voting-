@@ -22,13 +22,15 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN cp .env.example .env \
-    && composer update \
+    && sed -i 's/APP_KEY=/APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=/' .env \
+    && composer install \
         --no-dev \
         --no-interaction \
         --prefer-dist \
         --optimize-autoloader \
         --ignore-platform-reqs \
-    && php artisan key:generate \
+        --no-scripts \
+    && php artisan package:discover --ansi \
     && rm -f .env database/database.sqlite \
     && chown -R www-data:www-data storage bootstrap/cache database
 
